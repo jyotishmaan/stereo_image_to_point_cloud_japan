@@ -34,24 +34,31 @@ def write_ply(fn, verts, colors):
 
 def main():
     print('loading images...')
-    imgL = cv.pyrDown(cv.imread("/Users/michaelwu/Desktop/projects/japan/data/left.png", cv.IMREAD_GRAYSCALE))
-    imgR = cv.pyrDown(cv.imread("/Users/michaelwu/Desktop/projects/japan/data/right.png", cv.IMREAD_GRAYSCALE))
+    imgL = cv.imread("/Users/michaelwu/Desktop/projects/japan/data/left.png")
+    imgR = cv.imread("/Users/michaelwu/Desktop/projects/japan/data/right.png")
     # imgL = cv.pyrDown(cv.imread("/Users/michaelwu/Desktop/projects/japan/data/aloeL.jpg"))  # downscale images for faster processing
     # imgR = cv.pyrDown(cv.imread("/Users/michaelwu/Desktop/projects/japan/data/aloeR.jpg"))
 
-    window_size = 3
+    window_size = 5
     min_disp = 16
-    num_disp = 112-min_disp
+    num_disp = 192-min_disp
+    blockSize = window_size
+    uniquenessRatio = 1
+    speckleRange = 3
+    speckleWindowSize = 3
+    disp12MaxDiff = 200
+    P1 = 600
+    P2 = 2400
     stereo = cv.StereoSGBM_create(
         minDisparity = min_disp, # Minimum possible disparity value. Normally, it is zero but sometimes rectification algorithms can shift images, so this parameter needs to be adjusted accordingly.
         numDisparities = num_disp, #Maximum disparity minus minimum disparity. The value is always greater than zero. In the current implementation, this parameter must be divisible by 16.
-        blockSize = 16,
-        P1 = 8*3*window_size**2,
-        P2 = 32*3*window_size**2,
-        disp12MaxDiff = 1,
-        uniquenessRatio = 10,
-        speckleWindowSize = 100,
-        speckleRange = 32,
+        blockSize = window_size,
+        uniquenessRatio = 1,
+        speckleRange = 3,
+        speckleWindowSize = 3,
+        disp12MaxDiff = 200,
+        P1 = 600,
+        P2 = 2400,
     )
 
     print('computing disparity...')
