@@ -22,11 +22,11 @@ import cv2
 import os
 
 
-INFILE_L = "./data/video_frames/left"
-INFILE_R = "./data/video_frames/right"
+INFILE_L = "../data/video_frames/left"
+INFILE_R = "../data/video_frames/right"
 
-OUTFILE_PT = "./data/point_cloud_output"
-OUTFILE_DISPARITY = "./data/disparity_output"
+OUTFILE_PT = "../data/point_cloud_output"
+OUTFILE_DISPARITY = "../data/disparity_output"
 
 N = 100
 
@@ -113,6 +113,30 @@ def main():
         #                       (255, 255, 255), 2)
         # cv2.imshow('disparity', diplayed_image) # for some reason when using imshow, the picture has to be normalized
         # cv2.waitKey()
+        ix,iy = -1,-1
+        # mouse callback function
+        def draw_circle(event,x,y,flags,param):
+            global ix,iy
+            if event == cv2.EVENT_LBUTTONDBLCLK:
+                cv2.rectangle(displayed_image,(x,y), (x + 20, y + 20),(255, 255, 255), 2)
+                ix,iy = x,y
+                # print(x,y)
+                # print(disp.shape)
+                #depth = baseline * focal / disparity
+                print(np.mean(disp.shape[0] * 0.02 / disp[x:x+20, y:y+20]))
+
+        # Create a black image, a window and bind the function to window
+        cv2.namedWindow('image')
+        cv2.setMouseCallback('image',draw_circle)
+
+        while(1):
+            cv2.imshow('image', displayed_image)
+            k = cv2.waitKey(20) & 0xFF
+            if k == 27:
+                break
+            elif k == ord('a'):
+                print(ix,iy)
+        cv2.destroyAllWindows()
         # generate 3D point cloud
         h, w = imgL.shape[:2]
         f = 0.8*w                          # guess for focal length
