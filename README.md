@@ -11,3 +11,10 @@
 6. run `python together.py`, you should see a windows pop up, press `s` to draw a bounding box, and then press `space` or `enter` to confirm the bounding box, then you should see both the position and the disparity map showing.
 
 Feel free to disable showing disparity map by passing in False on line 102 for calculating disparity map
+
+#### Sample Image of the program
+Sample Program Run Without Selection
+![Sample Program Run Without Selection](./paper/images/sample_program_run_without_selection.png)
+
+Sample Program Run With Selection
+![Sample Program Run With Selection](./paper/images/sample_program_run_with_selection.png)
