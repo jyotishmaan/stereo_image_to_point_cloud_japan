@@ -18,32 +18,53 @@ def intersection(L1, L2):
         print(x,y)
         return x,y
     else:
+        print('\n')
         print('Same')
         return False
 
-df = pd.read_csv (r'testing.csv')
+df = pd.read_csv (r'book.csv')
 #print(df)
 LinesRight = [] 
 for index, row in df.iterrows():
      # access data using column names
-     x1 = row['R1x']
-     y1 = row['R1y']
+     if index == 700:
+         break
+     x1 = row['R1X']
+     y1 = row['R1Y']
 
-     x2 = row['R2x']
+     x2 = row['R2X']
 
-     y2 = row['R2y']
+     y2 = row['R2Y']
 
      L1 = line([x1,y1],[x2,y2])
      LinesRight.append(L1)
 
-print(LinesRight)
-first = LinesRight[0]
-for l in LinesRight[1:]:
-    second = l
-    point = intersection(first,second)
-    first = second
 
+df = pd.DataFrame(columns =['x', 'y']) 
+df.to_csv(r'port_estimation.csv')
 
+for x in range(10):
+    first = LinesRight[x]
+    print('@@@@@@')
+    for l in LinesRight[x+1::10]:
+        print('###############')
+        second = l
+        x,y = intersection(first,second)
+        coordinates = []
+        coordinates = coordinates + [x]
+        coordinates = coordinates + [y]
+
+        dataframe = pd.DataFrame([coordinates], columns =['x', 'y']) 
+        print(dataframe)
+        dataframe.to_csv(r'port_estimation.csv',mode='a', header=False)
+
+        first = second
+
+#a = line([44,29],[58,15])
+#b = line([36,20],[60,10])
+#print(a)
+#print(b)
+#print(intersection(a,b))
     
     
 
